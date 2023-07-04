@@ -1,0 +1,49 @@
+{% extends 'base_with_footer.html' %}
+{% block content %}
+<style>
+    input.form-control::placeholder { /* Standard syntax */
+        color: lightgray !important;
+    }
+    input.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: lightgray !important;
+    }
+    input.form-control::-ms-input-placeholder { /* Microsoft Edge */
+        color: lightgray !important;
+    }
+    input.form-control::-webkit-input-placeholder { /* WebKit browsers */
+        color: lightgray !important;
+    }
+</style>
+
+<form action="" class="d-flex">
+    <input type="text" name="searchPost" class="form-control me-2" placeholder="Search for Post..." />
+    <button type="submit" class="btn btn-secondary">
+        Search
+    </button>
+</form>
+{% if searchTerm %}
+<p>Searching for: {{ searchTerm }}</p>
+{% endif %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for post in posts %}
+    <div v-for="post in posts" class="col">
+        <div class="card">
+            <a href="{% url 'detail' post.id %}">
+                <img class="card-img-top" src="{{ post.image.url }}" />
+            </a>
+            <div class="card-body">
+                <a href="{% url 'detail' post.id %}">
+                    <h5 class="card-title fw-bold">{{ post.title }}</h5>
+                </a>
+                <p class="card-text">{{ post.description }}</p>
+                {% if post.url %}
+                <a href="{{ post.url }}" class="btn btn-primary">
+                    Post Link
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

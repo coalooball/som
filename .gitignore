@@ -1,0 +1,4 @@
+media/
+som/settings.py
+__pycache__/
+*.pyc
