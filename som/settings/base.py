@@ -128,6 +128,6 @@ STATICFILES_DIRS = [
     BASE_DIR / 'som/static/',
 ]
 
-CSRF_TRUSTED_ORIGINS = ['http://somnambulatory.xyz', 'https://somnambulatory.xyz']
+CSRF_TRUSTED_ORIGINS = ['http://somnambulatory.xyz', 'https://somnambulatory.xyz', 'http://43.136.168.241/']
 
 LOGIN_URL = 'loginaccount'

@@ -16,3 +16,5 @@ DATABASES = {
         'PORT': os.environ.get('SOM_DB_PORT'),  
     }
 }
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

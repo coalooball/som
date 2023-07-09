@@ -3,3 +3,4 @@ som/settings.py
 __pycache__/
 *.pyc
 .env
+staticfiles/
