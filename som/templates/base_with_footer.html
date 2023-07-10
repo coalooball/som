@@ -10,6 +10,23 @@
     <script src="{% static 'frontend/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js' %}" crossorigin="anonymous">
     </script>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style>
+        textarea.form-control::placeholder { /* Standard syntax */
+            color: lightgray !important;
+        }
+        input.form-control::placeholder { /* Standard syntax */
+            color: lightgray !important;
+        }
+        input.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: lightgray !important;
+        }
+        input.form-control::-ms-input-placeholder { /* Microsoft Edge */
+            color: lightgray !important;
+        }
+        input.form-control::-webkit-input-placeholder { /* WebKit browsers */
+            color: lightgray !important;
+        }
+    </style>
 </head>
 
 <body>

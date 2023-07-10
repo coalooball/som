@@ -1,20 +1,6 @@
 {% extends 'base_with_footer.html' %}
+{% load static %}
 {% block content %}
-<style>
-    input.form-control::placeholder { /* Standard syntax */
-        color: lightgray !important;
-    }
-    input.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
-        color: lightgray !important;
-    }
-    input.form-control::-ms-input-placeholder { /* Microsoft Edge */
-        color: lightgray !important;
-    }
-    input.form-control::-webkit-input-placeholder { /* WebKit browsers */
-        color: lightgray !important;
-    }
-</style>
-
 <form action="" class="d-flex">
     <input type="text" name="searchPost" class="form-control me-2" placeholder="Search for Post..." />
     <button type="submit" class="btn btn-secondary">
@@ -46,4 +32,7 @@
     </div>
     {% endfor %}
 </div>
+<a href="{% url 'create_post' %}" class="position-fixed bottom-0 end-0 m-3" role="button" title="Add Post">
+    <img src="{% static 'images/add.png' %}" alt="Add Post" width="50" height="50">
+</a>
 {% endblock content %}

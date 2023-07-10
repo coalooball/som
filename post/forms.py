@@ -1,5 +1,5 @@
 from django.forms import ModelForm, Textarea
-from .models import Review
+from .models import Review, Post
 
 class ReviewForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -18,3 +18,9 @@ class ReviewForm(ModelForm):
         widgets = {
             'text': Textarea(attrs={'rows': 4}),
         }
+
+
+class PostForm(ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'description', 'image']

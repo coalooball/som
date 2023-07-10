@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from .models import Post, Review
-from .forms import ReviewForm
+from .forms import ReviewForm, PostForm
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 
@@ -73,3 +73,41 @@ def deletereview(request, review_id):
     review = get_object_or_404(Review, pk=review_id, user=request.user)
     review.delete()
     return redirect('detail', review.post.id)
+
+@login_required
+def create_post(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            new_post = form.save(commit=False)
+            new_post.created_by = request.user
+            new_post.save()
+            return redirect('detail', new_post.id)
+        else:
+            return render(request, 'create_post.html', {'form': form, 'error': 'Bad data passed in.'})
+    else:
+        form = PostForm()
+        return render(request, 'create_post.html', {'form': form})
+
+@login_required
+def update_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('detail', post_id)
+        else:
+            return render(request, 'edit_post.html', {'form': form, 'post': post, 'error': 'Bad data passed in.'})
+    else:
+        form = PostForm(instance=post)
+        return render(request, 'edit_post.html', {'form': form, 'post': post})
+
+@login_required
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == 'POST':
+        post.delete()
+        return redirect('home')
+    else:
+        return render(request, 'delete_post.html', {'post': post})

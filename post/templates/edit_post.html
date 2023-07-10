@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+  <h1 class="text-center">Update Post</h1>
+  <form method="POST" enctype="multipart/form-data" class="mt-4">
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ form.title.label_tag }} <!-- Render label -->
+      {{ form.title }} <!-- Render form field -->
+      <div class="text-danger">{{ form.title.errors }}</div> <!-- Render field errors -->
+    </div>
+    <div class="mb-3">
+      {{ form.description.label_tag }}
+      {{ form.description }}
+      <div class="text-danger">{{ form.description.errors }}</div>
+    </div>
+    <div class="mb-3">
+      {{ form.image.label_tag }}
+      {{ form.image }}
+      <div class="text-danger">{{ form.image.errors }}</div>
+    </div>
+    <button type="submit" class="btn btn-primary">Amend</button>
+  </form>
+</div>
+{% endblock %}
