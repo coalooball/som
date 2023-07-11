@@ -30,24 +30,37 @@ def detail(request, post_id):
         {'post':post, 'reviews': reviews}
         )
 
+# @login_required
+# def createreview(request, post_id):
+#     post = get_object_or_404(Post,pk=post_id)
+#     if request.method == 'GET':
+#         return render(request, 'createreview.html',
+#             {'form':ReviewForm(), 'post':post})
+#     else:
+#         try:
+#             form = ReviewForm(request.POST)
+#             newReview = form.save(commit=False)
+#             newReview.user = request.user
+#             newReview.post = post
+#             newReview.save()
+#             return redirect('detail', newReview.post.id)
+#         except ValueError:
+#             return render(request,
+#                 'createreview.html',
+#                 {'form':ReviewForm(),'error':'bad data passed in'})
+
 @login_required
 def createreview(request, post_id):
     post = get_object_or_404(Post,pk=post_id)
-    if request.method == 'GET':
-        return render(request, 'createreview.html',
-            {'form':ReviewForm(), 'post':post})
-    else:
+    if request.method == 'POST':
         try:
-            form = ReviewForm(request.POST)
-            newReview = form.save(commit=False)
-            newReview.user = request.user
-            newReview.post = post
-            newReview.save()
-            return redirect('detail', newReview.post.id)
+            text = request.POST.get('text')
+            if not text:
+                raise ValueError('Empty comment.')
+            Review.objects.create(text=text, user=request.user, post=post)
+            return redirect('detail', post.id)
         except ValueError:
-            return render(request,
-                'createreview.html',
-                {'form':ReviewForm(),'error':'bad data passed in'})
+            return redirect('detail', post.id)
 
 @login_required
 def updatereview(request, review_id):
@@ -84,7 +97,7 @@ def create_post(request):
             new_post.save()
             return redirect('detail', new_post.id)
         else:
-            return render(request, 'create_post.html', {'form': form, 'error': 'Bad data passed in.'})
+            return render(request, 'create_post.html', {'form': form, 'errors': form.errors})
     else:
         form = PostForm()
         return render(request, 'create_post.html', {'form': form})

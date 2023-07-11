@@ -45,9 +45,15 @@
     {% for post in posts %}
     <div class="col">
         <div class="card">
+            {% if post.image %}
             <a href="{% url 'detail' post.id %}">
                 <img class="post-image1" src="{{ post.image.url }}" />
             </a>
+            {% else %}
+            <a href="{% url 'detail' post.id %}">
+                <img class="post-image1" src="{% static 'images/default-image.jpg' %}" />
+            </a>
+            {% endif %}
             <div class="card-body">
                 <div class="card-title">
                     <a href="{% url 'detail' post.id %}">

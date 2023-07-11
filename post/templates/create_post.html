@@ -3,6 +3,17 @@
 {% block content %}
 <div class="container mt-5">
     <h1>Create Post</h1>
+    {% if errors %}
+    <div class="alert alert-danger">
+        <ul>
+            {% for field_errors in errors.values %}
+            {% for error in field_errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="mb-3">
