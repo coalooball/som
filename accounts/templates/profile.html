@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h4>{{ profile_user.username }}'s Profile</h4>
+                </div>
+                <div class="card-body">
+                    {% if user == profile_user %}
+                    <form method="post" enctype="multipart/form-data" id="profile-form">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">Profile Picture</label>
+                            <div class="mb-3">
+                                <div class="image-upload">
+                                    {% if profile_user.userprofile.image %}
+                                    <img src="{{ profile_user.userprofile.image.url }}"
+                                        alt="{{ profile_user.username }}" class="img-thumbnail" id="profile-picture">
+                                    {% else %}
+                                    <img src="{% static 'images/default-avatar.png' %}"
+                                        alt="{{ profile_user.username }}" class="img-thumbnail" id="profile-picture">
+                                    {% endif %}
+                                    <div class="overlay">
+                                        <div class="text">Click to upload new picture</div>
+                                    </div>
+                                </div>
+                                <input class="form-control" type="file" name="image" id="image-upload"
+                                    style="display: none;">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input class="form-control" type="email" name="email"
+                                value="{{ profile_user.userprofile.email }}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Signature</label>
+                            <input class="form-control" type="text" name="signature"
+                                value="{{ profile_user.userprofile.signature }}">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                    {% else %}
+                    <!-- Show the profile information without form if the current user is not the profile owner -->
+                    {% if profile_user.userprofile.image %}
+                    <img src="{{ profile_user.userprofile.image.url }}" alt="{{ profile_user.username }}"
+                        class="img-thumbnail" id="profile-picture">
+                    {% else %}
+                    <img src="{% static 'images/default-avatar.png' %}" alt="{{ profile_user.username }}"
+                        class="img-thumbnail" id="profile-picture">
+                    {% endif %}
+                    <h5>Email: {{ profile_user.userprofile.email }}</h5>
+                    <h5>Signature: {{ profile_user.userprofile.signature }}</h5>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script src="{% static 'frontend/code.jquery.com_jquery-3.7.0.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $(".image-upload").hover(
+            function () {
+                $(this).children(".overlay").show();
+            }, function () {
+                $(this).children(".overlay").hide();
+            }
+        );
+
+        $(".image-upload").click(function () {
+            $("#image-upload").click();
+        });
+
+        $("#image-upload").change(function () {
+            $("#profile-form").submit();
+        });
+    });
+</script>
+{% endblock extra_js %}
+
+{% endblock %}

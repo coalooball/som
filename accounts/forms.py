@@ -1,4 +1,12 @@
 from django.contrib.auth.forms import UserCreationForm
+from django import forms
+from .models import UserProfile
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['image', 'email', 'signature']
+
 
 class UserCreateForm(UserCreationForm):
     def __init__(self, *args, **kwargs):

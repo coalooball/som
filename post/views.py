@@ -10,9 +10,9 @@ from django.contrib.auth.decorators import login_required
 def home(request):
     searchTerm = request.GET.get('searchPost')
     if searchTerm:
-        posts = Post.objects.filter(title__icontains=searchTerm)
+        posts = Post.objects.filter(title__icontains=searchTerm).order_by('-created_at')
     else:
-        posts = Post.objects.all()
+        posts = Post.objects.all().order_by('-created_at')
     return render(request, 'home.html',
         {'searchTerm':searchTerm, 'posts': posts})
 

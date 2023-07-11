@@ -7,6 +7,9 @@ from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import redirect
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+from .models import UserProfile
+from .forms import UserProfileForm
 
 # Create your views here.
 
@@ -58,3 +61,20 @@ def loginaccount(request):
         else:
             login(request,user)
             return redirect('home')
+
+
+@login_required
+def view_profile(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    # if request.user != user:
+    #     return redirect('home')  # Redirect to home page if the current user is not the profile owner
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=user.userprofile)
+        if form.is_valid():
+            form.save()
+            return redirect('view_profile', user_id=user.id)
+    else:
+        form = UserProfileForm(instance=user.userprofile)
+
+    return render(request, 'profile.html', {'profile_user': user, 'form': form})
